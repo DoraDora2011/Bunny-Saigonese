@@ -1,0 +1,2056 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<script>
+history.scrollRestoration = "manual";
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Let’s be a “sành ăn” Saigonese</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="assets/home button.png">
+<link rel="shortcut icon" href="assets/home button.png">
+
+<style>
+
+/* ======================
+PAGE3 FLOATING CIRCLES
+====================== */
+
+.page3{
+  position:relative;
+  overflow:hidden;
+}
+
+.circle-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.circle{
+  position:absolute;
+  border-radius:50%;
+  opacity:0.9;
+  animation:floatCircle linear infinite;
+}
+
+@keyframes floatCircle{
+
+  0%{transform:translate(0,0);}
+  50%{transform:translate(20px,-40px);}
+  100%{transform:translate(0,0);}
+
+}
+.game-area{
+position:relative;
+z-index:5;
+
+width:min(1100px,88vw);
+height:min(520px,60vh);
+
+background:white;
+border:3px solid black;
+border-radius:14px;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+overflow:hidden; /* THÊM DÒNG NÀY */
+}
+
+/* ======================
+START BUTTON
+====================== */
+
+.start-btn{
+
+font-family:'VinaSans', sans-serif;
+font-size:36px;
+
+color:white;
+background:#e43222;
+
+border:3px solid black;
+border-radius:12px;
+
+padding:10px 40px;
+
+cursor:pointer;
+
+transition:transform .25s ease;
+
+}
+
+@media (hover:hover){
+  .start-btn:hover{
+    transform:scale(1.08);
+  }
+}
+
+
+/* ======================
+FOOD MENU BAR
+====================== */
+
+.food-menu{
+
+  position:absolute;
+  top:0;
+  left:0;
+
+  width:100%;
+
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+
+  border-bottom:3px solid black;
+
+  padding:12px 0;
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:.3s;
+
+}
+
+.food-menu.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+
+/* ======================
+FOOD ITEMS
+====================== */
+
+.food-item{
+
+  font-family:'VinaSans';
+  font-size:22px;
+
+  padding:6px 16px;
+
+  border:2px solid black;
+  border-radius:8px;
+
+  background:white;
+
+  cursor:pointer;
+
+  transition:.2s;
+
+}
+
+.food-item:hover{
+  transform:scale(1.05);
+}
+
+
+/* ======================
+HIGHLIGHT COLORS
+====================== */
+
+.food-item.active-drink{
+  background:#0a0ad5;
+  color:black;
+}
+
+.food-item.active-dry{
+  background:#e43222;
+  color:black;
+}
+
+.food-item.active-dessert{
+  background:#fff032;
+  color:black;
+}
+
+.food-item.active-snack{
+  background:#0bb36d;
+  color:black;
+}
+
+
+/* ======================
+RESPONSIVE
+====================== */
+
+@media (max-width:900px){
+
+  .game-area{
+    width:90vw;
+    height:45vh;
+  }
+
+}
+
+@media (max-width:600px){
+
+  .game-area{
+    width:92vw;
+    height:40vh;
+  }
+
+  .start-btn{
+    font-size:28px;
+    padding:8px 28px;
+  }
+
+}
+/* ======================
+GAME AREA BOUNCE
+====================== */
+
+.page3:not(.game-active) .game-area{
+transform:translateY(120px);
+opacity:0;
+}
+
+.page3.game-active .game-area{
+animation:bounceUp .7s cubic-bezier(.25,1.5,.5,1) forwards;
+}
+
+@keyframes bounceUp{
+
+0%{
+transform:translateY(120px);
+opacity:0;
+}
+
+60%{
+transform:translateY(-12px);
+opacity:1;
+}
+
+80%{
+transform:translateY(4px);
+}
+
+100%{
+transform:translateY(0);
+}
+
+}
+
+
+/* ======================
+START BUTTON APPEAR
+====================== */
+
+.start-btn{
+opacity:0;
+transform:scale(.8);
+transition:.35s;
+}
+
+.page3.game-active .start-btn{
+opacity:1;
+transform:scale(1);
+transition-delay:.6s;
+}
+/* ======================
+FOOD RANDOM POPUP
+====================== */
+
+.food-popup{
+position:absolute;
+top:40%;
+left:50%;
+transform:translate(-50%,-50%);
+font-family:'VinaSans';
+font-size:clamp(20px, 3vw, 36px);
+color:black;
+white-space:nowrap;
+pointer-events:none;
+animation:popFood .25s ease;
+text-align:center;
+}
+/* ======================
+RESULT BOX
+====================== */
+
+.result-box{
+
+position:absolute;
+
+top:120px;
+height:calc(100% - 120px);
+
+width:100%;
+height:calc(100% - 60px);
+
+pointer-events:none;
+
+overflow:hidden;
+
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ======================
+NAVBAR
+====================== -->
+
+<nav class="navbar">
+
+<img src="assets/home button.png" class="home-icon" id="menuBtn" alt="Home">
+
+<img src="assets/sun.png" class="theme-icon" id="themeToggle" alt="Toggle theme">
+
+
+<ul class="nav-links" id="menu">
+<li><a href="#page1">HOME</a></li>
+<li><a href="#page2">ABOUT</a></li>
+<li><a href="#page3">GAME</a></li>
+<li><a href="#page4">STREAK</a></li>
+<li><a href="#" id="guideBtn">USER GUIDE</a></li>
+</ul>
+
+</nav>
+
+<div class="menu-overlay" id="overlay"></div>
+
+
+<!-- ======================
+PAGE 1
+====================== -->
+
+<section class="page page1" id="page1">
+
+<div class="food-layer">
+<img src="assets/pho.png" class="food-decor pho">
+<img src="assets/bot.png" class="food-decor bot">
+<img src="assets/caphe.png" class="food-decor caphe">
+<img src="assets/banhmi.png" class="food-decor banhmi">
+<img src="assets/banhtrangtron.png" class="food-decor banhtrang">
+</div>
+
+<div class="hero">
+
+<div class="hero-text">
+
+<div class="hero-line">
+<span>Let’s</span>
+<span>Be</span>
+</div>
+
+<div class="hero-line small">
+<span>a</span>
+<span class="sanhan">“sành ăn”</span>
+</div>
+
+<div class="hero-line">
+<span class="saigonese">Saigonese</span>
+</div>
+
+<p class="hero-subtitle">"Sành ăn": true foodie who really knows good food.</p>
+
+<div class="mukbang-cta" id="mukbangBtn">
+Click here to mukbang "sập"
+</div>
+
+</div>
+
+<div class="hero-video">
+<video autoplay muted loop playsinline>
+<source src="assets/main char.webm" type="video/webm">
+</video>
+</div>
+
+</div>
+
+</section>
+
+<div class="dot-nav">
+  <div class="dot active" data-target="page1"></div>
+  <div class="dot" data-target="page2"></div>
+  <div class="dot" data-target="page3"></div>
+  <div class="dot" data-target="page4"></div>
+</div>
+<!-- ======================
+PAGE 2
+====================== -->
+
+<section class="page page2" id="page2">
+
+<div class="about-container">
+
+<div class="about-visual about-desktop-wrap">
+
+<img src="assets/about.svg" class="about-image about-desktop">
+
+<div class="about-text about-text-desktop">
+
+<p><strong>Welcome to my website.</strong></p>
+
+<p>
+New to Saigon and not sure what to eat?
+This city is full of amazing food, and choosing can be overwhelming.
+</p>
+
+<p>
+This website helps you discover Saigon’s food in a fun way.
+You won’t know what dish you’ll get. it could be a famous local favorite
+or a hidden spot only locals know.
+</p>
+
+<p>
+Find great food, explore nearby places, and enjoy the taste of Saigon.
+</p>
+
+<p>
+Eat well, explore more, and become a true Saigonese food lover.
+</p>
+
+</div>
+
+<p class="scroll-hint">
+Scroll down to not pick n choose ^^
+</p>
+
+</div>
+
+
+<div class="about-visual about-mobile-wrap">
+
+<img src="assets/about mobile.svg" class="about-image about-mobile">
+
+<div class="about-text about-text-mobile">
+
+<p><strong>Welcome to my website.</strong></p>
+
+<p>
+New to Saigon and not sure what to eat?
+This city is full of amazing food, and choosing can be overwhelming.
+</p>
+
+<p>
+This website helps you discover Saigon’s food in a fun way.
+You won’t know what dish you’ll get, it could be a famous local favorite
+or a hidden spot only locals know.
+</p>
+
+<p>
+Find great food, explore nearby places, and enjoy the taste of Saigon.
+</p>
+
+<p>
+Eat well, explore more, and become a true Saigonese food lover.
+</p>
+
+</div>
+
+<p class="scroll-hint">
+Scroll down to not pick n choose ^^
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ======================
+PAGE 3
+====================== -->
+
+<section class="page page3" id="page3">
+
+<div class="circle-layer" id="circleLayer"></div>
+
+<div class="game-area">
+
+  <!-- 🔥 HINT NẰM Ở ĐÂY -->
+  <div class="food-hint" id="foodHint">
+    Pick a type of dish to try
+  </div>
+
+  <div class="food-menu" id="foodMenu">
+    <div class="food-item" data-type="drink">Soupy</div>
+    <div class="food-item" data-type="dry">Dry</div>
+    <div class="food-item" data-type="dessert">Dessert</div>
+    <div class="food-item" data-type="snack">Snack</div>
+  </div>
+
+  <button class="start-btn" id="startBtn">Start</button>
+  <div class="result-box" id="resultBox"></div>
+
+</div>
+
+<p class="scroll-hint-game">
+  Scroll down to build your food streak ^^
+</p>
+</section>
+
+
+<section class="page page4" id="page4">
+
+  <div class="page4-container">
+
+    <!-- LEFT: IMAGE -->
+    <div class="page4-left page4-artwork">
+      <img src="assets/page4.png" id="page4Img">
+    </div>
+
+    <!-- RIGHT: STREAK -->
+    <div class="page4-right page4-streak-content">
+
+      <div class="streak-box">
+
+        <div class="page4-streak-info">
+          <h2>Keep your food streak</h2>
+
+         <input type="file" id="uploadInput" accept="image/*" multiple>
+
+  <label for="uploadInput" class="upload-btn">Upload meal</label>
+  <span class="file-text" id="fileText">No file selected</span>
+
+          <div class="streak-progress">
+            <div class="streak-bar" id="streakBar"></div>
+          </div>
+
+          <p id="streakText">0 / 10 meals</p>
+        </div>
+
+        <div class="page4-streak-gallery">
+          <div class="streak-gallery" id="streakGallery"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <p class="reload-hint">
+    reload to re-streak ^^
+  </p>
+
+</section>
+
+<!-- ======================
+ALLERGY POPUP
+====================== -->
+
+<div class="allergy-overlay" id="allergyOverlay">
+
+<div class="allergy-box">
+
+<h2>Please choose allergies before starting.</h2>
+
+<div class="allergy-options">
+
+<label>
+<input type="checkbox" class="allergy-option">
+Seafood
+</label>
+
+<label>
+<input type="checkbox" class="allergy-option">
+Peanuts
+</label>
+
+<label>
+<input type="checkbox" class="allergy-option">
+Milk / Dairy
+</label>
+
+<label>
+<input type="checkbox" class="allergy-option">
+Gluten
+</label>
+<label>
+<input type="checkbox" class="allergy-option">
+Animal organs
+</label>
+<label>
+<input type="checkbox" id="noAllergy">
+No allergies
+</label>
+
+</div>
+
+<button class="enter-btn" id="enterBtn">Enter</button>
+
+</div>
+
+</div>
+
+
+<!-- ======================
+SCRIPT
+====================== -->
+<audio id="bgMusic" loop>
+<source src="sounds/background music.mp3" type="audio/mpeg">
+</audio>
+<audio id="chooseSound">
+<source src="sounds/choose.mp3" type="audio/mpeg">
+</audio>
+<audio id="enterSound">
+<source src="sounds/enter.mp3" type="audio/mpeg">
+</audio>
+<audio id="turnSound">
+<source src="sounds/turn.mp3" type="audio/mpeg">
+</audio>
+<!-- SOUND CONTROL -->
+
+<div class="sound-control">
+
+<img src="assets/speaker.png" id="speakerBtn" class="speaker-icon">
+
+<div class="sound-panel" id="soundPanel">
+
+<div class="sound-row">
+<label>Music</label>
+<input type="range" id="musicVolume" min="0" max="1" step="0.01">
+</div>
+
+<div class="sound-row">
+<label>UI Sound</label>
+<input type="range" id="uiVolume" min="0" max="1" step="0.01">
+</div>
+
+</div>
+
+</div>
+<!-- ======================
+RESULT POPUP
+====================== -->
+
+<div class="result-overlay" id="resultOverlay">
+  <div class="result-popup-box">
+
+    <img src="assets/exit.png" class="exit-btn" id="exitBtn">
+
+    <h2 id="finalFoodName">Phở bò</h2>
+
+    <div class="popup-bottom">
+      <div class="see-review" id="reviewBtn">See review →</div>
+      <div class="google-map" id="mapBtn">Google Map →</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================
+USER GUIDE POPUP (TÁCH RIÊNG)
+====================== -->
+
+<div class="guide-overlay" id="guideOverlay">
+
+  <div class="guide-box">
+
+    <button class="guide-close" id="guideClose">×</button>
+
+    <h2>User Guide</h2>
+
+    <p>
+      1. Click "mukbang" to begin <br>
+      2. Scroll down to choose your food type <br>
+      3. Get a random dish in page 3 <br>
+      4. Upload meals to build streak <br>
+      5. Reach 10 meals to unlock certificate.
+    </p>
+
+  </div>
+
+</div>
+
+<audio id="tadaSound">
+  <source src="sounds/tada.mp3" type="audio/mpeg">
+</audio>
+<img src="assets/front base color.png" id="certBtn" class="cert-btn">
+
+<div class="certificate-overlay" id="certificateOverlay">
+
+<audio id="enterSound">
+  <source src="sounds/enter.mp3" type="audio/mpeg">
+</audio>
+<audio id="errorSound">
+  <source src="sounds/error.mp3" type="audio/mpeg">
+</audio>
+<script>
+
+/* NAVBAR */
+
+const btn = document.getElementById("menuBtn");
+const menu = document.getElementById("menu");
+const overlay = document.getElementById("overlay");
+const links = document.querySelectorAll(".nav-links a");
+
+btn.addEventListener("click", () => {
+
+const isPhone = window.innerWidth <= 600;
+
+if (isPhone) {
+menu.classList.toggle("showMenu");
+btn.classList.toggle("rotate");
+overlay.classList.toggle("show");
+}
+else {
+document.getElementById("page1").scrollIntoView({behavior:"smooth"});
+}
+
+});
+
+links.forEach(link=>{
+link.addEventListener("click",()=>{
+if(window.innerWidth<=600){
+menu.classList.remove("showMenu");
+btn.classList.remove("rotate");
+overlay.classList.remove("show");
+}
+});
+});
+
+overlay.addEventListener("click",()=>{
+menu.classList.remove("showMenu");
+btn.classList.remove("rotate");
+overlay.classList.remove("show");
+});
+
+
+/* DARK MODE */
+
+const themeBtn = document.getElementById("themeToggle");
+const homeIcon = document.querySelector(".home-icon");
+const page4Img = document.getElementById("page4Img"); // 🔥 đặt ở ngoài
+
+let darkMode = false;
+
+themeBtn.addEventListener("click", () => {
+
+  playManagedSound(turnSound);
+
+  darkMode = !darkMode;
+  document.body.classList.toggle("dark");
+
+  if(darkMode){
+    themeBtn.src = "assets/moon.png";
+    homeIcon.src = "assets/home button dark mode.png";
+
+    page4Img.src = "assets/page4darkmode.png"; // ✅ ĐỔI ẢNH
+
+  } else {
+    themeBtn.src = "assets/sun.png";
+    homeIcon.src = "assets/home button.png";
+
+    page4Img.src = "assets/page4.png"; // ✅ ĐỔI LẠI
+  }
+
+});
+
+/* ======================
+MUKBANG FLOW (RESTORED)
+====================== */
+
+const mukbangBtn=document.getElementById("mukbangBtn");
+const allergyOverlay=document.getElementById("allergyOverlay");
+const enterBtn=document.getElementById("enterBtn");
+
+const allergyOptions=document.querySelectorAll(".allergy-option");
+const noAllergy=document.getElementById("noAllergy");
+const allInputs=document.querySelectorAll(".allergy-options input");
+
+let onboardingDone=false;
+let allergyChosen=false;
+
+mukbangBtn.addEventListener("click",()=>{
+
+if(!onboardingDone){
+allergyOverlay.classList.add("show");
+document.body.classList.add("no-scroll"); // 🔥 THÊM
+}else{
+document.getElementById("page3").scrollIntoView({behavior:"smooth"});
+}
+
+});
+
+allInputs.forEach(input=>{
+input.addEventListener("change",()=>{
+enterBtn.classList.add("show");
+});
+});
+
+noAllergy.addEventListener("change",()=>{
+if(noAllergy.checked){
+allergyOptions.forEach(opt=>opt.checked=false);
+}
+});
+
+allergyOptions.forEach(opt=>{
+opt.addEventListener("change",()=>{
+if(opt.checked){
+noAllergy.checked=false;
+}
+});
+});
+
+enterBtn.addEventListener("click",()=>{
+
+playManagedSound(enterSound);
+
+onboardingDone=true;
+
+allergyOverlay.classList.remove("show");
+document.body.classList.remove("no-scroll");
+
+setTimeout(()=>{
+document.getElementById("page2").scrollIntoView({behavior:"smooth"});
+},200);
+
+});
+
+
+/* ======================
+ABOUT ANIMATION (RESTORED)
+====================== */
+
+const aboutSection=document.getElementById("page2");
+
+const aboutObserver=new IntersectionObserver((entries)=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+aboutSection.classList.add("about-active");
+}else{
+aboutSection.classList.remove("about-active");
+}
+});
+},{threshold:0.35});
+
+aboutObserver.observe(aboutSection);
+
+
+/* ======================
+START BUTTON MENU
+====================== */
+
+const startBtn=document.getElementById("startBtn");
+const foodMenu=document.getElementById("foodMenu");
+const foodHint = document.getElementById("foodHint");
+const foodItems=document.querySelectorAll(".food-item");
+startBtn.addEventListener("click",()=>{
+
+const allergies = getSelectedAllergies();
+
+if(allergies.length === 0 && !noAllergy.checked){
+allergyOverlay.classList.add("show");
+document.body.classList.add("no-scroll"); // 🔥 THÊM
+return;
+}
+
+foodMenu.classList.add("show");
+startBtn.style.display="none";
+resultBox.style.opacity="1";
+foodHint.classList.add("show");
+});
+foodItems.forEach(item=>{
+  item.addEventListener("click",()=>{
+
+    foodHint.classList.remove("show"); // ✅ ĐÚNG CHỖ
+
+    if(spinning) return;
+
+    foodItems.forEach(i=>{
+      i.classList.remove("active-drink","active-dry","active-dessert","active-snack");
+    });
+
+    const type=item.dataset.type;
+
+    if(type==="drink") item.classList.add("active-drink");
+    if(type==="dry") item.classList.add("active-dry");
+    if(type==="dessert") item.classList.add("active-dessert");
+    if(type==="snack") item.classList.add("active-snack");
+
+  });
+});
+
+/* ======================
+PAGE3 CIRCLES
+====================== */
+
+const page3=document.getElementById("page3");
+const circleLayer=document.getElementById("circleLayer");
+
+let circlesCreated=false;
+
+function createCircles(){
+
+const colors=["#0a0ad5","#fff032","#e43222"];
+
+const circleCount=window.innerWidth<600?18:36;
+
+for(let i=0;i<circleCount;i++){
+
+const circle=document.createElement("div");
+circle.classList.add("circle");
+
+const size=Math.random()*120+30;
+
+circle.style.width=size+"px";
+circle.style.height=size+"px";
+
+circle.style.left=Math.random()*100+"%";
+circle.style.top=Math.random()*100+"%";
+
+circle.style.background=colors[Math.floor(Math.random()*colors.length)];
+
+circle.style.animationDuration=(6+Math.random()*6)+"s";
+
+circleLayer.appendChild(circle);
+
+}
+
+}
+
+const page3Observer=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting && !circlesCreated){
+
+createCircles();
+circlesCreated=true;
+
+}
+
+});
+
+},{threshold:0.3});
+
+page3Observer.observe(page3);
+
+function getSelectedAllergies(){
+
+const selected=[];
+
+allergyOptions.forEach(opt=>{
+if(opt.checked){
+
+const text=opt.parentElement.textContent.trim().toLowerCase();
+
+if(text.includes("seafood")) selected.push("seafood");
+if(text.includes("peanuts")) selected.push("peanuts");
+if(text.includes("milk")) selected.push("dairy");
+if(text.includes("gluten")) selected.push("gluten");
+if(text.includes("organ")) selected.push("organs");
+
+}
+});
+
+return selected;
+
+}
+/* ======================
+SOUPY RANDOM
+====================== */
+
+const resultBox=document.getElementById("resultBox");
+const resultOverlay = document.getElementById("resultOverlay");
+const finalFoodName = document.getElementById("finalFoodName");
+const tadaSound = document.getElementById("tadaSound");
+const soupyFoods=[
+
+{ name:"Phở bò", tags:[] },
+{ name:"Phở gà", tags:[] },
+
+{ name:"Bún bò Huế", tags:["organs"] },
+{ name:"Bún riêu cua", tags:["seafood"] },
+{ name:"Bún mọc", tags:[] },
+{ name:"Bún mắm", tags:["seafood"] },
+{ name:"Bún cá", tags:["seafood"] },
+{ name:"Bún chả cá", tags:["seafood"] },
+{ name:"Bún thịt nướng", tags:[] },
+{ name:"Bún thái hải sản", tags:["seafood"] },
+
+{ name:"Hủ tiếu", tags:[] },
+{ name:"Hủ tiếu Nam Vang", tags:["seafood"] },
+{ name:"Hủ tiếu Sa Đéc", tags:[] },
+{ name:"Hủ tiếu gõ", tags:[] },
+{ name:"Hủ tiếu mì", tags:["gluten"] },
+{ name:"Hủ tiếu bò viên", tags:[] },
+{ name:"Hủ tiếu cá", tags:["seafood"] },
+
+{ name:"Canh khổ qua nhồi thịt", tags:[] },
+{ name:"Canh chua cá", tags:["seafood"] },
+{ name:"Canh chua tôm", tags:["seafood"] },
+{ name:"Canh rau đay cua", tags:["seafood"] },
+{ name:"Canh bầu tôm", tags:["seafood"] },
+{ name:"Canh cải thịt bằm", tags:[] },
+
+{ name:"Súp cua", tags:["seafood"] },
+{ name:"Súp gà", tags:[] },
+
+{ name:"Cháo lòng", tags:["organs"] },
+{ name:"Cháo vịt", tags:[] },
+{ name:"Cháo cá", tags:["seafood"] },
+{ name:"Cháo gà", tags:[] },
+{ name:"Cháo sườn", tags:[] }
+
+];
+
+let spinning=false;
+let hasSpun = false; // 🔥 thêm dòng này
+
+/* ======================
+SOUPY
+====================== */
+
+document.querySelector('[data-type="drink"]').addEventListener("click",()=>{
+
+if(spinning) return;
+
+spinning=true;
+foodMenu.classList.add("locked");
+document.body.classList.add("no-scroll"); // 🔥 THÊM
+
+const allergies = getSelectedAllergies();
+
+let filteredFoods = soupyFoods.filter(food=>{
+return !food.tags.some(tag=>allergies.includes(tag));
+});
+
+if(filteredFoods.length===0){
+filteredFoods=soupyFoods;
+}
+
+let finalFood = null;
+
+let spin=setInterval(()=>{
+
+finalFood = filteredFoods[Math.floor(Math.random()*filteredFoods.length)];
+
+resultBox.innerHTML = `<div class="food-popup">${finalFood.name}</div>`;
+
+playManagedSound(chooseSound);
+
+},120);
+
+setTimeout(()=>{
+
+clearInterval(spin);
+spinning=false;
+foodMenu.classList.remove("locked");
+
+hasSpun = true; // 🔥 THÊM DÒNG NÀY
+
+/* SHOW RESULT POPUP */
+finalFoodName.textContent = finalFood.name;
+resultOverlay.classList.add("show");
+document.body.classList.add("no-scroll");
+
+playManagedSound(tadaSound);
+
+
+},4000);
+
+});
+
+
+/* ======================
+DRY
+====================== */
+
+document.querySelector('[data-type="dry"]').addEventListener("click",()=>{
+
+if(spinning) return;
+
+spinning=true;
+foodMenu.classList.add("locked");
+document.body.classList.add("no-scroll"); // 🔥 THÊM
+
+const allergies = getSelectedAllergies();
+
+let filteredFoods = dryFoods.filter(food=>{
+return !food.tags.some(tag=>allergies.includes(tag));
+});
+
+if(filteredFoods.length===0){
+filteredFoods=dryFoods;
+}
+
+let finalFood = null;
+
+let spin=setInterval(()=>{
+
+finalFood = filteredFoods[Math.floor(Math.random()*filteredFoods.length)];
+
+resultBox.innerHTML = `<div class="food-popup">${finalFood.name}</div>`;
+
+playManagedSound(chooseSound);
+
+},120);
+
+setTimeout(()=>{
+
+clearInterval(spin);
+spinning=false;
+foodMenu.classList.remove("locked");
+
+hasSpun = true; // 🔥 THÊM DÒNG NÀY
+
+finalFoodName.textContent = finalFood.name;
+resultOverlay.classList.add("show");
+document.body.classList.add("no-scroll");
+
+playManagedSound(tadaSound);
+
+},4000);
+
+});
+
+
+/* ======================
+DESSERT
+====================== */
+
+document.querySelector('[data-type="dessert"]').addEventListener("click",()=>{
+
+if(spinning) return;
+
+spinning=true;
+foodMenu.classList.add("locked");
+document.body.classList.add("no-scroll"); // 🔥 THÊM
+
+const allergies = getSelectedAllergies();
+
+let filteredFoods = dessertFoods.filter(food=>{
+return !food.tags.some(tag=>allergies.includes(tag));
+});
+
+if(filteredFoods.length===0){
+filteredFoods=dessertFoods;
+}
+
+let finalFood = null;
+
+let spin=setInterval(()=>{
+
+finalFood = filteredFoods[Math.floor(Math.random()*filteredFoods.length)];
+
+resultBox.innerHTML = `<div class="food-popup">${finalFood.name}</div>`;
+
+playManagedSound(chooseSound);
+
+},120);
+
+setTimeout(()=>{
+
+clearInterval(spin);
+spinning=false;
+foodMenu.classList.remove("locked");
+
+hasSpun = true; // 🔥 THÊM DÒNG NÀY
+
+finalFoodName.textContent = finalFood.name;
+resultOverlay.classList.add("show");
+document.body.classList.add("no-scroll");
+
+playManagedSound(tadaSound);
+
+},4000);
+
+});
+
+
+/* ======================
+SNACK
+====================== */
+
+document.querySelector('[data-type="snack"]').addEventListener("click",()=>{
+
+if(spinning) return;
+
+spinning=true;
+foodMenu.classList.add("locked");
+document.body.classList.add("no-scroll"); // 🔥 THÊM
+
+const allergies = getSelectedAllergies();
+
+let filteredFoods = snackFoods.filter(food=>{
+return !food.tags.some(tag=>allergies.includes(tag));
+});
+
+if(filteredFoods.length===0){
+filteredFoods=snackFoods;
+}
+
+let finalFood = null;
+
+let spin=setInterval(()=>{
+
+finalFood = filteredFoods[Math.floor(Math.random()*filteredFoods.length)];
+
+resultBox.innerHTML = `<div class="food-popup">${finalFood.name}</div>`;
+
+playManagedSound(chooseSound);
+
+},120);
+
+setTimeout(()=>{
+
+clearInterval(spin);
+spinning=false;
+foodMenu.classList.remove("locked");
+
+hasSpun = true; // 🔥 THÊM DÒNG NÀY
+
+finalFoodName.textContent = finalFood.name;
+resultOverlay.classList.add("show");
+document.body.classList.add("no-scroll");
+
+playManagedSound(tadaSound);
+
+},4000);
+
+});
+const dryFoods=[
+
+{ name:"Cơm tấm sườn bì chả", tags:[] },
+{ name:"Cơm gà xối mỡ", tags:[] },
+{ name:"Cơm chiên dương châu", tags:[] },
+{ name:"Cơm chiên hải sản", tags:["seafood"] },
+{ name:"Cơm chiên cá mặn", tags:["seafood"] },
+{ name:"Cơm sườn nướng", tags:[] },
+
+{ name:"Bánh xèo", tags:["seafood"] },
+{ name:"Bánh khọt", tags:["seafood"] },
+{ name:"Bánh cuốn", tags:[] },
+{ name:"Bánh ướt", tags:[] },
+{ name:"Bánh bèo", tags:["seafood"] },
+{ name:"Bánh bột lọc", tags:["seafood"] },
+
+{ name:"Gỏi cuốn", tags:["seafood"] },
+{ name:"Bì cuốn", tags:[] },
+{ name:"Nem cuốn", tags:[] },
+{ name:"Bò bía", tags:["peanuts"] },
+
+{ name:"Chả giò", tags:[] },
+{ name:"Nem nướng", tags:[] },
+{ name:"Bò lá lốt", tags:[] },
+{ name:"Gà nướng", tags:[] },
+{ name:"Vịt quay", tags:[] },
+{ name:"Heo quay", tags:[] },
+{ name:"Hải sản nướng", tags:["seafood"] },
+
+{ name:"Bánh mì thịt", tags:["gluten"] },
+{ name:"Bánh mì chả cá", tags:["gluten","seafood"] },
+{ name:"Bánh mì xíu mại", tags:["gluten"] },
+{ name:"Bánh mì phá lấu", tags:["gluten","organs"] },
+{ name:"Bánh mì gà", tags:["gluten"] }
+
+];
+const dessertFoods=[
+
+{ name:"Chè ba màu", tags:["dairy"] },
+{ name:"Chè đậu xanh", tags:[] },
+{ name:"Chè đậu đỏ", tags:[] },
+{ name:"Chè đậu đen", tags:[] },
+{ name:"Chè thập cẩm", tags:["dairy"] },
+{ name:"Chè chuối", tags:["dairy"] },
+{ name:"Chè bắp", tags:["dairy"] },
+{ name:"Chè khoai môn", tags:["dairy"] },
+{ name:"Chè trôi nước", tags:["gluten"] },
+{ name:"Chè sâm bổ lượng", tags:[] },
+
+{ name:"Bánh flan", tags:["dairy"] },
+{ name:"Bánh da lợn", tags:["gluten"] },
+{ name:"Bánh bò", tags:["gluten"] },
+{ name:"Bánh chuối nướng", tags:["gluten"] },
+{ name:"Bánh chuối hấp", tags:["gluten"] },
+{ name:"Bánh pía", tags:["gluten","peanuts"] },
+
+{ name:"Xoài lắc", tags:[] },
+{ name:"Cóc lắc", tags:[] },
+{ name:"Ổi lắc", tags:[] },
+{ name:"Me dầm", tags:[] },
+{ name:"Trái cây tô", tags:[] },
+
+{ name:"Kem dừa", tags:["dairy"] },
+{ name:"Kem cuộn", tags:["dairy"] },
+{ name:"Kem bơ", tags:["dairy"] },
+{ name:"Sữa chua dẻo", tags:["dairy"] },
+{ name:"Sữa chua mít", tags:["dairy"] }
+
+];
+const snackFoods=[
+
+{ name:"Bánh tráng trộn", tags:["seafood"] },
+{ name:"Bánh tráng nướng", tags:["seafood"] },
+{ name:"Bánh tráng cuốn", tags:["seafood"] },
+{ name:"Bánh tráng bơ", tags:["dairy"] },
+{ name:"Bánh tráng muối tôm", tags:["seafood"] },
+{ name:"Bánh tráng kẹp", tags:["seafood"] },
+
+{ name:"Cá viên chiên", tags:["seafood"] },
+{ name:"Bò viên chiên", tags:[] },
+{ name:"Tôm viên chiên", tags:["seafood"] },
+{ name:"Hồ lô chiên", tags:["seafood"] },
+{ name:"Thanh cua chiên", tags:["seafood"] },
+{ name:"Khoai lang chiên", tags:[] },
+{ name:"Bắp xào", tags:["dairy"] },
+{ name:"Trứng cút lộn xào me", tags:["organs"] },
+{ name:"Trứng gà nướng", tags:[] },
+{ name:"Xúc xích nướng", tags:[] },
+
+{ name:"Bánh tiêu", tags:["gluten"] },
+{ name:"Bánh cam", tags:["gluten"] },
+
+{ name:"Ốc các loại", tags:["seafood"] }
+
+];
+/* ======================
+PAGE3 GAME BOUNCE
+====================== */
+
+const gameObserver = new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+page3.classList.add("game-active");
+
+}
+
+});
+
+},{threshold:0.35});
+
+gameObserver.observe(page3);
+
+window.addEventListener("load", () => {
+
+  document.getElementById("page1").scrollIntoView({behavior:"auto"});
+
+  // reset streak
+  localStorage.removeItem("streakImages");
+  images = [];
+
+  renderImages();
+
+});
+
+const bgMusic = document.getElementById("bgMusic");
+
+/* SOUND EFFECT */
+
+const chooseSound = document.getElementById("chooseSound");
+const enterSound = document.getElementById("enterSound");
+const turnSound = document.getElementById("turnSound");
+const errorSound = document.getElementById("errorSound");
+
+/* WEB AUDIO VOLUME CONTROL */
+
+const speakerBtn = document.getElementById("speakerBtn");
+const soundPanel = document.getElementById("soundPanel");
+const musicSlider = document.getElementById("musicVolume");
+const uiSlider = document.getElementById("uiVolume");
+
+const DEFAULT_MUSIC_GAIN = 0.1;
+const DEFAULT_UI_GAIN = 0.6;
+const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+let audioContext = null;
+let musicGainNode = null;
+let uiGainNode = null;
+let audioGraphReady = false;
+let audioUnlocked = false;
+
+const audioSourceMap = new WeakMap();
+const uiAudioElements = [chooseSound, enterSound, turnSound, tadaSound, errorSound];
+
+function createAudioContextIfNeeded() {
+  if (!AudioContextClass || audioContext) {
+    return audioContext;
+  }
+
+  audioContext = new AudioContextClass();
+  musicGainNode = audioContext.createGain();
+  uiGainNode = audioContext.createGain();
+
+  musicGainNode.gain.value = DEFAULT_MUSIC_GAIN;
+  uiGainNode.gain.value = DEFAULT_UI_GAIN;
+
+  musicGainNode.connect(audioContext.destination);
+  uiGainNode.connect(audioContext.destination);
+
+  return audioContext;
+}
+
+function connectAudioElement(audioElement, gainNode) {
+  if (!audioElement || !gainNode || audioSourceMap.has(audioElement)) {
+    return;
+  }
+
+  const sourceNode = audioContext.createMediaElementSource(audioElement);
+  sourceNode.connect(gainNode);
+  audioSourceMap.set(audioElement, sourceNode);
+}
+
+function setupAudioGraph() {
+  createAudioContextIfNeeded();
+
+  if (!audioContext || audioGraphReady) {
+    return;
+  }
+
+  connectAudioElement(bgMusic, musicGainNode);
+  uiAudioElements.forEach((audioElement) => {
+    connectAudioElement(audioElement, uiGainNode);
+  });
+
+  audioGraphReady = true;
+}
+
+function setMusicGain(value) {
+  createAudioContextIfNeeded();
+
+  if (musicGainNode) {
+    musicGainNode.gain.value = value;
+  }
+}
+
+function setUiGain(value) {
+  createAudioContextIfNeeded();
+
+  if (uiGainNode) {
+    uiGainNode.gain.value = value;
+  }
+}
+
+function syncVolumeSliders() {
+  if (musicSlider) {
+    musicSlider.value = String(DEFAULT_MUSIC_GAIN);
+  }
+
+  if (uiSlider) {
+    uiSlider.value = String(DEFAULT_UI_GAIN);
+  }
+}
+
+async function unlockAudioSystem() {
+  createAudioContextIfNeeded();
+  setupAudioGraph();
+
+  if (!audioContext) {
+    return;
+  }
+
+  if (audioContext.state === "suspended") {
+    try {
+      await audioContext.resume();
+    } catch (error) {
+      return;
+    }
+  }
+
+  const shouldStartBackgroundMusic = !audioUnlocked && bgMusic && bgMusic.paused;
+  audioUnlocked = true;
+
+  if (shouldStartBackgroundMusic) {
+    bgMusic.currentTime = 0;
+    bgMusic.play().catch(() => {});
+  }
+}
+
+async function playManagedSound(audioElement) {
+  if (!audioElement) {
+    return;
+  }
+
+  await unlockAudioSystem();
+
+  audioElement.currentTime = 0;
+  audioElement.play().catch(() => {});
+}
+
+function installAudioUnlockHandlers() {
+  const unlockOnce = () => {
+    unlockAudioSystem();
+  };
+
+  ["pointerdown", "touchstart", "click", "keydown"].forEach((eventName) => {
+    document.addEventListener(eventName, unlockOnce, {
+      once:true,
+      passive:true,
+      capture:true
+    });
+  });
+}
+
+syncVolumeSliders();
+setMusicGain(DEFAULT_MUSIC_GAIN);
+setUiGain(DEFAULT_UI_GAIN);
+installAudioUnlockHandlers();
+
+if (speakerBtn && musicSlider && uiSlider) {
+  speakerBtn.addEventListener("click", () => {
+    soundPanel.classList.toggle("show");
+  });
+
+  musicSlider.addEventListener("input", (event) => {
+    setMusicGain(Number(event.target.value));
+  });
+
+  uiSlider.addEventListener("input", (event) => {
+    setUiGain(Number(event.target.value));
+  });
+}
+
+function playChooseSound(){
+playManagedSound(chooseSound);
+}
+
+const clickElements = document.querySelectorAll(`
+.about-image,
+.nav-links a,
+.mukbang-cta,
+.allergy-options input,
+.enter-btn,
+.start-btn,
+.food-item
+`);
+
+clickElements.forEach(el=>{
+el.addEventListener("click", playChooseSound);
+});
+document.addEventListener("touchmove", function(e){
+if(document.body.classList.contains("no-scroll")){
+e.preventDefault();
+}
+}, { passive:false });
+/* ======================
+GOOGLE MAP + TIKTOK LINK
+====================== */
+
+const mapBtn = document.getElementById("mapBtn");
+const reviewBtn = document.getElementById("reviewBtn");
+
+mapBtn.addEventListener("click", () => {
+
+  const food = finalFoodName.textContent.trim();
+
+  if (navigator.geolocation) {
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        const query = encodeURIComponent(food + " quán ăn");
+        const url = `https://www.google.com/maps/search/?api=1&query=${query}&near=${lat},${lng}`;
+
+        window.open(url, "_blank");
+
+      },
+
+      () => {
+        const query = encodeURIComponent(food + " Hồ Chí Minh");
+        const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+        window.open(url, "_blank");
+      }
+    );
+
+  } else {
+    const query = encodeURIComponent(food + " Hồ Chí Minh");
+    const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+    window.open(url, "_blank");
+  }
+
+});
+/* TIKTOK REVIEW */
+reviewBtn.addEventListener("click", () => {
+
+  const food = finalFoodName.textContent.trim();
+
+  const query = encodeURIComponent(food + " review Sài Gòn");
+  const url = `https://www.tiktok.com/search?q=${query}`;
+
+  const newTab = window.open("about:blank", "_blank");
+  newTab.location.href = url;
+
+});
+/* ======================
+EXIT POPUP
+====================== */
+
+function isMobileDeepLinkDevice() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera || "";
+  const hasTouchScreen = navigator.maxTouchPoints > 1;
+
+  return /android|iphone|ipad|ipod|iemobile|opera mini|mobile/i.test(ua)
+    || (hasTouchScreen && window.innerWidth <= 1024);
+}
+
+function isAndroidDeepLinkDevice() {
+  return /android/i.test(navigator.userAgent || "");
+}
+
+function isIOSDeepLinkDevice() {
+  const ua = navigator.userAgent || "";
+  const platform = navigator.platform || "";
+
+  return /iphone|ipad|ipod/i.test(ua)
+    || (platform === "MacIntel" && navigator.maxTouchPoints > 1);
+}
+
+function openExternalWebUrl(url) {
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function tryOpenNativeApp(targets) {
+  const { appUrl, fallbackUrl, androidIntentUrl } = targets;
+
+  if (!isMobileDeepLinkDevice()) {
+    openExternalWebUrl(fallbackUrl);
+    return;
+  }
+
+  if (isAndroidDeepLinkDevice() && androidIntentUrl) {
+    window.location.href = androidIntentUrl;
+    return;
+  }
+
+  let fallbackTimer = null;
+  let appWasOpened = false;
+
+  const cleanup = () => {
+    if (fallbackTimer) {
+      window.clearTimeout(fallbackTimer);
+      fallbackTimer = null;
+    }
+
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+    window.removeEventListener("pagehide", handlePageHide);
+    window.removeEventListener("blur", handleBlur);
+  };
+
+  const handleVisibilityChange = () => {
+    if (document.visibilityState === "hidden") {
+      appWasOpened = true;
+      cleanup();
+    }
+  };
+
+  const handlePageHide = () => {
+    appWasOpened = true;
+    cleanup();
+  };
+
+  const handleBlur = () => {
+    appWasOpened = true;
+    cleanup();
+  };
+
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("pagehide", handlePageHide, { once:true });
+  window.addEventListener("blur", handleBlur, { once:true });
+
+  fallbackTimer = window.setTimeout(() => {
+    cleanup();
+
+    if (!appWasOpened) {
+      window.location.href = fallbackUrl;
+    }
+  }, isIOSDeepLinkDevice() ? 1600 : 1200);
+
+  window.location.href = appUrl;
+}
+
+function getMapTargets(foodName, coords) {
+  const searchTerm = `${foodName} quan an`;
+  const encodedSearch = encodeURIComponent(searchTerm);
+  const fallbackUrl = coords
+    ? `https://www.google.com/maps/search/?api=1&query=${encodedSearch}&near=${coords.lat},${coords.lng}`
+    : `https://www.google.com/maps/search/?api=1&query=${encodedSearch}`;
+
+  return {
+    fallbackUrl,
+    appUrl: isIOSDeepLinkDevice()
+      ? `comgooglemaps://?q=${encodedSearch}`
+      : `geo:0,0?q=${encodedSearch}`,
+    androidIntentUrl: `intent://maps.google.com/?q=${encodedSearch}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`
+  };
+}
+
+function getTikTokTargets(foodName) {
+  const searchTerm = `${foodName} review Sai Gon`;
+  const encodedSearch = encodeURIComponent(searchTerm);
+  const fallbackUrl = `https://www.tiktok.com/search?q=${encodedSearch}`;
+
+  return {
+    fallbackUrl,
+    appUrl: `snssdk1233://search?keyword=${encodedSearch}`,
+    androidIntentUrl: `intent://search?keyword=${encodedSearch}#Intent;scheme=snssdk1233;package=com.zhiliaoapp.musically;S.browser_fallback_url=${encodeURIComponent(fallbackUrl)};end`
+  };
+}
+
+function replaceButtonWithClone(element) {
+  const clone = element.cloneNode(true);
+  element.parentNode.replaceChild(clone, element);
+  return clone;
+}
+
+const deepLinkMapBtn = replaceButtonWithClone(document.getElementById("mapBtn"));
+const deepLinkTikTokBtn = replaceButtonWithClone(document.getElementById("reviewBtn"));
+
+deepLinkMapBtn.addEventListener("click", () => {
+  const foodName = finalFoodName.textContent.trim();
+
+  if (!foodName) {
+    return;
+  }
+
+  if (!isMobileDeepLinkDevice()) {
+    openExternalWebUrl(getMapTargets(foodName).fallbackUrl);
+    return;
+  }
+
+  if (!navigator.geolocation) {
+    tryOpenNativeApp(getMapTargets(foodName));
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      tryOpenNativeApp(getMapTargets(foodName, {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }));
+    },
+    () => {
+      tryOpenNativeApp(getMapTargets(foodName));
+    },
+    {
+      enableHighAccuracy:false,
+      timeout:4000,
+      maximumAge:300000
+    }
+  );
+});
+
+deepLinkTikTokBtn.addEventListener("click", () => {
+  const foodName = finalFoodName.textContent.trim();
+
+  if (!foodName) {
+    return;
+  }
+
+  tryOpenNativeApp(getTikTokTargets(foodName));
+});
+
+const exitBtn = document.getElementById("exitBtn");
+
+exitBtn.addEventListener("click", () => {
+
+  resultOverlay.classList.remove("show");
+  document.body.classList.remove("no-scroll");
+
+});
+
+const uploadInput = document.getElementById("uploadInput");
+const uploadBtn = document.querySelector(".upload-btn");
+
+uploadBtn.addEventListener("click", (e) => {
+
+  // ❌ chưa quay
+  if(!hasSpun){
+
+    e.preventDefault();
+
+    playManagedSound(errorSound);
+
+    fileText.innerText = "Let's eat first";
+
+    document.getElementById("page3").scrollIntoView({behavior:"smooth"});
+
+    return;
+  }
+
+  // ✅ bình thường
+  playManagedSound(chooseSound);
+});
+let images = [];
+let certificateDismissed = false;
+const gallery = document.getElementById("streakGallery");
+const streakBar = document.getElementById("streakBar");
+const streakText = document.getElementById("streakText");
+const fileText = document.getElementById("fileText");
+const certBtn = document.getElementById("certBtn");
+certBtn.addEventListener("click", () => {
+  showCertificate();
+});
+function getCertificateOverlay(){
+  return document.getElementById("certificateOverlay");
+}
+
+function getCertificateClose(){
+  return document.getElementById("certificateClose");
+}
+
+renderImages();
+uploadInput.addEventListener("click", (e)=>{
+
+  if(!hasSpun){
+
+    e.preventDefault();
+
+    playManagedSound(errorSound);
+
+    fileText.innerText = "Let's eat first";
+
+    document.getElementById("page3").scrollIntoView({behavior:"smooth"});
+  }
+
+});
+uploadInput.addEventListener("change", function(e){
+
+  const files = e.target.files;
+  if(!files.length) return;
+
+  const remainingSlots = 10 - images.length;
+
+  if(remainingSlots <= 0){
+    fileText.innerText = "Maximum 10 images reached";
+    uploadInput.value = "";
+    showCertificate();
+    return;
+  }
+
+  const filesToAdd = Array.from(files)
+    .filter(file => file.type.startsWith("image/"))
+    .slice(0, remainingSlots);
+
+  fileText.innerText = `${filesToAdd.length} image${filesToAdd.length !== 1 ? "s" : ""} selected`;
+
+  filesToAdd.forEach((file) => {
+    const reader = new FileReader();
+
+reader.onload = function(event){
+
+  const img = new Image();
+
+  img.onload = () => {
+
+    images.push(event.target.result);
+    renderImages();
+
+    // 🔊 SOUND Ở ĐÂY
+    playManagedSound(enterSound);
+
+    if(images.length === 10){
+      showCertificate();
+    }
+
+  };
+
+  img.src = event.target.result;
+
+};
+
+    reader.readAsDataURL(file);
+  });
+
+  if(files.length > remainingSlots){
+    fileText.innerText = `Only ${remainingSlots} more image${remainingSlots !== 1 ? "s" : ""} can be added`;
+  }
+
+  uploadInput.value = "";
+});
+
+function renderImages(){
+
+  gallery.innerHTML = "";
+
+images.forEach((src, index) => {
+
+  const wrapper = document.createElement("div");
+  wrapper.classList.add("img-wrapper");
+
+  const img = document.createElement("img");
+  img.src = src;
+
+  const removeBtn = document.createElement("div");
+  removeBtn.classList.add("remove-img");
+  removeBtn.innerText = "✕";
+
+  removeBtn.addEventListener("click", () => {
+    images.splice(index, 1);   // 🔥 xoá ảnh khỏi array
+    renderImages();            // 🔥 render lại
+  });
+
+  wrapper.appendChild(img);
+  wrapper.appendChild(removeBtn);
+
+  gallery.appendChild(wrapper);
+
+});
+
+  updateStreak();
+
+  const certificateOverlay = getCertificateOverlay();
+
+if(certificateOverlay){
+
+if(images.length >= 10){
+
+  fileText.innerText = "Maximum 10 images reached";
+
+  // 🔥 chỉ auto mở lần đầu
+  if(!certificateDismissed){
+    certificateOverlay.classList.add("show");
+  }
+
+  // 🔥 chỉ hiện icon nếu đã bấm ❌
+  if(certificateDismissed){
+    certBtn.classList.add("show");
+  }
+
+} else {
+
+  certificateOverlay.classList.remove("show");
+  certBtn.classList.remove("show");
+  certificateDismissed = false; // reset
+
+}
+
+}
+}
+
+function updateStreak(){
+  const count = images.length;
+
+  streakText.innerText = count >= 10 ? "FULL STREAK" : `${count} / 10 meals`;
+  streakBar.style.width = `${count * 10}%`;
+}
+
+function showCertificate(){
+
+  const certificateOverlay = getCertificateOverlay();
+  const tadaSound = document.getElementById("tadaSound");
+
+  if(certificateOverlay){
+
+    certificateOverlay.classList.add("show");
+
+    certBtn.classList.remove("show"); // 🔥 ẩn icon khi mở lại
+    certificateDismissed = false;     // 🔥 reset
+
+if(tadaSound){
+  playManagedSound(tadaSound);
+}
+  }
+}
+function initCertificateOverlay(){
+  const certificateOverlay = getCertificateOverlay();
+  const certificateClose = getCertificateClose();
+
+  if(certificateClose && !certificateClose.dataset.bound){
+    certificateClose.dataset.bound = "true";
+certificateClose.addEventListener("click", () => {
+
+  certificateOverlay.classList.remove("show");
+
+  certificateDismissed = true;     // 🔥 đánh dấu đã tắt
+  certBtn.classList.add("show");   // 🔥 hiện icon
+
+});
+  }
+
+  if(certificateOverlay && !certificateOverlay.dataset.bound){
+    certificateOverlay.dataset.bound = "true";
+    certificateOverlay.addEventListener("click", (event) => {
+      if(event.target === certificateOverlay){
+        certificateOverlay.classList.remove("show");
+      }
+    });
+  }
+}
+
+window.addEventListener("load", initCertificateOverlay);
+const dots = document.querySelectorAll(".dot");
+const sections = document.querySelectorAll(".page");
+
+// click → scroll
+dots.forEach(dot=>{
+  dot.addEventListener("click", ()=>{
+    const target = document.getElementById(dot.dataset.target);
+    target.scrollIntoView({behavior:"smooth"});
+  });
+});
+
+// auto highlight
+const dotObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      dots.forEach(dot=>{
+        dot.classList.remove("active");
+        if(dot.dataset.target === entry.target.id){
+          dot.classList.add("active");
+        }
+      });
+    }
+  });
+},{threshold:0.6});
+
+sections.forEach(sec=>dotObserver.observe(sec));
+
+const guideBtn = document.getElementById("guideBtn");
+const guideOverlay = document.getElementById("guideOverlay");
+const guideClose = document.getElementById("guideClose");
+
+guideBtn.addEventListener("click", (e)=>{
+  e.preventDefault();
+
+  guideOverlay.classList.add("show");
+  document.body.classList.add("no-scroll");
+});
+
+guideClose.addEventListener("click", ()=>{
+  guideOverlay.classList.remove("show");
+  document.body.classList.remove("no-scroll");
+});
+
+// click ngoài để đóng
+guideOverlay.addEventListener("click", (e)=>{
+  if(e.target === guideOverlay){
+    guideOverlay.classList.remove("show");
+    document.body.classList.remove("no-scroll");
+  }
+});
+</script>
+  <div class="certificate-modal">
+    <button type="button" class="certificate-close" id="certificateClose" aria-label="Close popup">x</button>
+    <model-viewer 
+      src="assets/bangkhen.glb"
+      auto-rotate
+      camera-controls>
+    </model-viewer>
+  </div>
+</div>
+
+<!-- nhớ thêm lib -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,2343 @@
+/* ======================
+ROOT VARIABLES
+====================== */
+
+:root{
+  --navbar-height:90px;
+}
+
+
+/* ======================
+FONT
+====================== */
+
+@font-face{
+  font-family:'VinaSans';
+  src:url('fonts/NGTVinaSans-Regular.ttf') format('truetype');
+}
+
+@font-face{
+  font-family:'Oswald';
+  src:url('fonts/Oswald-VariableFont_wght.ttf') format('truetype');
+}
+
+
+/* ======================
+RESET
+====================== */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+
+/* ======================
+BODY
+====================== */
+
+body{
+  font-family:'VinaSans', sans-serif;
+  background:white;
+  padding-top:var(--navbar-height);
+}
+
+
+/* ======================
+NAVBAR
+====================== */
+
+.navbar{
+  width:100%;
+  height:var(--navbar-height);
+  border-bottom:3px solid black;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background:white;
+
+  position:fixed;
+  top:0;
+  left:0;
+
+  z-index:1000;
+}
+
+
+/* ======================
+HOME ICON
+====================== */
+
+.home-icon{
+  position:absolute;
+  left:10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:70px;
+  cursor:pointer;
+  z-index:1100;
+}
+
+.home-icon.rotate{
+  transform:translateY(-50%) rotate(180deg);
+}
+
+
+/* ======================
+THEME ICON
+====================== */
+
+.theme-icon{
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  width:70px;
+  cursor:pointer;
+  z-index:1100;
+}
+
+
+/* ======================
+DESKTOP MENU
+====================== */
+
+.nav-links{
+  list-style:none;
+  display:flex;
+  flex-direction:row;
+  gap:80px;
+  z-index:900;
+}
+
+.nav-links a{
+  text-decoration:none;
+  font-size:32px;
+  color:black;
+}
+
+
+/* ======================
+PAGE SECTIONS
+====================== */
+
+.page{
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  scroll-margin-top:var(--navbar-height);
+}
+
+
+/* ======================
+PAGE BACKGROUNDS
+====================== */
+
+.page1{
+  background:white;
+  position:relative;
+  overflow:hidden;
+}
+
+.page2{ background:white; }
+.page3{ background:white; }
+.page4{ background:white; }
+
+
+/* ======================
+FOOD DECOR LAYER
+====================== */
+
+.food-layer{
+  position:absolute;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
+}
+
+.food-decor{
+  position:absolute;
+  pointer-events:none;
+  opacity:0;
+  animation:foodFly 1.2s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+@keyframes foodFly{
+  0%{
+    opacity:0;
+    transform:translateY(-120vh) rotate(var(--r));
+  }
+
+  100%{
+    opacity:1;
+    transform:translateY(0) rotate(var(--r));
+  }
+}
+
+
+/* ======================
+FOOD POSITIONS (DESKTOP)
+====================== */
+
+.pho{
+  left:-3vw;
+  bottom:3vw;
+  width:clamp(160px,22vw,320px);
+  --r:8deg;
+  animation-delay:.2s;
+}
+
+.bot{
+  left:2vw;
+  top:1vw;
+  width:clamp(90px,9vw,150px);
+  --r:120deg;
+  animation-delay:.35s;
+}
+
+.caphe{
+  right:0vw;
+  bottom:2vw;
+  width:clamp(90px,10vw,150px);
+  --r:-15deg;
+  animation-delay:.5s;
+}
+
+.banhmi{
+  right:-3vw;
+  top:1vw;
+  width:clamp(160px,18vw,260px);
+  --r:-30deg;
+  animation-delay:.65s;
+}
+
+.banhtrang{
+  left:40%;
+  top:40%;
+  transform:translate(-50%,-50%);
+  width:clamp(120px,14vw,200px);
+  --r:0deg;
+  animation-delay:.8s;
+}
+
+
+/* ======================
+HERO LAYOUT
+====================== */
+
+.hero{
+  width:100%;
+  max-width:1700px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 80px;
+  margin-top:-60px;
+  position:relative;
+  z-index:2;
+}
+
+
+/* ======================
+HERO TEXT
+====================== */
+
+.hero-text{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  font-size:120px;
+  line-height:1.1;
+}
+
+.hero-line{
+  display:flex;
+  align-items:center;
+  gap:30px;
+}
+
+.hero-line.small{
+  font-size:100px;
+}
+
+.saigonese{
+  font-size:120px;
+}
+
+.hero-subtitle{
+  max-width:540px;
+  margin-top:-8px;
+  margin-left:8px;
+  font-family:'Oswald', sans-serif;
+  font-size:clamp(18px, 1.9vw, 28px);
+  line-height:1.35;
+  color:#333;
+}
+
+body.dark .hero-subtitle{
+  color:#f5f5f5;
+}
+
+
+/* ======================
+TEXT BUBBLE ANIMATION
+====================== */
+
+.hero-line span:not(.sanhan),
+.saigonese{
+  display:inline-block;
+  animation:textBubble 3.6s ease-in-out infinite;
+}
+
+.hero-line:nth-child(1) span:nth-child(1){
+  animation-delay:0s;
+}
+
+.hero-line:nth-child(1) span:nth-child(2){
+  animation-delay:.3s;
+}
+
+.hero-line:nth-child(2) span:nth-child(1){
+  animation-delay:.6s;
+}
+
+.saigonese{
+  animation-delay:1.2s;
+}
+
+@keyframes textBubble{
+  0%{transform:scale(1);}
+  40%{transform:scale(1.08);}
+  60%{transform:scale(1.08);}
+  100%{transform:scale(1);}
+}
+
+
+/* ======================
+SANH AN COLOR
+====================== */
+
+.sanhan{
+  animation:sanhanBlinkLight 2s infinite;
+}
+
+@keyframes sanhanBlinkLight{
+  0%{color:#0a0ad5;}
+  25%{color:#fff032;}
+  50%{color:#e43222;}
+  75%{color:#75b165;}
+  100%{color:#0a0ad5;}
+}
+
+body.dark .sanhan{
+  animation:sanhanBlinkDark 2s infinite;
+}
+
+@keyframes sanhanBlinkDark{
+  0%{
+    color:#0a0ad5;
+    text-shadow:0 0 8px #fff032,0 0 14px #fff032;
+  }
+
+  25%{
+    color:#fff032;
+    text-shadow:0 0 8px #fff032,0 0 16px #fff032;
+  }
+
+  50%{
+    color:#e43222;
+    text-shadow:0 0 8px #e43222;
+  }
+
+  75%{
+    color:#75b165;
+    text-shadow:0 0 8px #75b165;
+  }
+
+  100%{
+    color:#0a0ad5;
+    text-shadow:0 0 8px #fff032,0 0 14px #fff032;
+  }
+}
+
+
+
+/* ======================
+VIDEO
+====================== */
+
+.hero-video video{
+  width:730px;
+  max-width:48vw;
+  height:auto;
+  display:block;
+}
+
+body.dark .hero-video video{
+  filter:drop-shadow(0 0 6px rgba(80,110,255,0.35));
+}
+
+
+/* ======================
+MUKBANG CTA
+====================== */
+
+.mukbang-cta{
+  font-family:'Oswald', sans-serif;
+  font-size:36px;
+  color:#e43222;
+  margin-top:30px;
+  margin-left:110px;
+  display:inline-block;
+  background:#fff032;
+  border:3px solid black;
+  border-radius:30px;
+  padding:6px 18px;
+  transition:transform .25s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .mukbang-cta:hover{
+    transform:scale(1.08);
+  }
+}
+
+body.dark .mukbang-cta{
+  color:#fff032;
+  background:transparent;
+  border:1px solid #fff032;
+  text-shadow:0 0 6px #fff032, 0 0 14px #fff032;
+}
+
+
+/* ======================
+ALLERGY POPUP OVERLAY
+====================== */
+
+.allergy-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,0.4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .35s ease;
+  z-index:2000;
+}
+
+.allergy-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+
+/* ======================
+POPUP BOX
+====================== */
+
+.allergy-box{
+  background:white;
+  border:3px solid black;
+  border-radius:30px;
+  padding:60px 80px;
+  width:680px;
+  max-width:92vw;
+  text-align:left;
+  transform:scale(.75);
+  opacity:0;
+}
+
+
+/* ======================
+POPUP ANIMATION
+====================== */
+
+.allergy-overlay.show .allergy-box{
+  animation:popupBounce .55s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+@keyframes popupBounce{
+  0%{
+    transform:scale(.75);
+    opacity:0;
+  }
+
+  60%{
+    transform:scale(1.06);
+    opacity:1;
+  }
+
+  80%{
+    transform:scale(.97);
+  }
+
+  100%{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+
+/* ======================
+POPUP TITLE
+====================== */
+
+.allergy-box h2{
+  font-family:'VinaSans';
+  font-size:34px;
+  text-align:center;
+  margin-bottom:35px;
+  line-height:1.3;
+}
+
+
+/* ======================
+OPTIONS LIST
+====================== */
+
+.allergy-options{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  margin-bottom:35px;
+  font-family:'Oswald';
+  font-size:22px;
+}
+
+.allergy-options label{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  cursor:pointer;
+  line-height:1;
+}
+
+
+/* ======================
+ROUND CHECKBOX
+====================== */
+
+.allergy-options input{
+  appearance:none;
+  width:18px;
+  height:18px;
+  border:2px solid black;
+  border-radius:50%;
+  position:relative;
+  cursor:pointer;
+  flex-shrink:0;
+}
+
+.allergy-options input:checked::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:8px;
+  height:8px;
+  background:black;
+  border-radius:50%;
+}
+
+
+/* ======================
+ENTER BUTTON
+====================== */
+
+.enter-btn{
+  display:none;
+  padding:14px 36px;
+  font-family:'Oswald';
+  font-size:22px;
+  background:#0a0ad5;
+  color:white;
+  border:2px solid black;
+  border-radius:25px;
+  cursor:pointer;
+  transition:transform .2s ease;
+}
+
+.enter-btn.show{
+  display:inline-block;
+}
+
+@media (hover:hover){
+  .enter-btn:hover{
+    transform:scale(1.08);
+  }
+}
+
+
+/* ======================
+ABOUT PAGE
+====================== */
+
+.page2{
+  background:white;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  padding-top:40px;
+  overflow:hidden;
+}
+
+.about-container{
+  width:100%;
+  max-width:1800px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  position:relative;
+}
+
+.about-visual{
+  position:relative;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+.about-image{
+  display:block;
+  height:auto;
+}
+
+/* desktop hiện mặc định */
+.about-desktop-wrap{
+  display:flex;
+}
+
+/* mobile ẩn mặc định */
+.about-mobile-wrap{
+  display:none;
+}
+
+
+/* ======================
+DESKTOP IMAGE ANIMATION
+====================== */
+
+.about-desktop{
+  width:min(96vw, 1400px);
+  transform:translateX(-120vw);
+  opacity:0;
+  transition:transform 1s cubic-bezier(.22,.84,.24,1), opacity .7s ease;
+}
+
+.page2.about-active .about-desktop{
+  transform:translateX(0);
+  opacity:1;
+}
+
+
+/* ======================
+MOBILE IMAGE ANIMATION
+====================== */
+
+.about-mobile{
+  display:block;
+  width:auto;
+  height:auto;
+  max-width:calc(100vw - 20px);
+  max-height:calc(100vh - var(--navbar-height) - 24px);
+  transform:translateX(-120vw);
+  opacity:0;
+  transition:transform 1s cubic-bezier(.22,.84,.24,1), opacity .7s ease;
+}
+
+.page2.about-active .about-mobile{
+  transform:translateX(0);
+  opacity:1;
+}
+
+
+/* ======================
+ABOUT TEXT BASE
+====================== */
+
+.about-text{
+  position:absolute;
+  z-index:3;
+  color:black;
+  text-align:left;
+  font-family:'Oswald', sans-serif;
+  line-height:1.45;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity .55s ease, transform .55s ease;
+}
+
+.page2.about-active .about-text{
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:.95s;
+}
+
+.about-text p{
+  margin-bottom:10px;
+}
+
+.about-text strong{
+  font-weight:700;
+}
+
+
+/* ======================
+DESKTOP TEXT POSITION
+====================== */
+
+.about-text-desktop{
+  top:38%;
+  left:24%;
+  width:55%;
+  font-size:clamp(13px, 1vw, 19px);
+}
+
+
+/* ======================
+TABLET
+====================== */
+
+@media (max-width:1024px){
+
+  .nav-links{gap:50px;}
+  .nav-links a{font-size:24px;}
+
+  .home-icon{width:60px;}
+  .theme-icon{width:60px;}
+
+  .hero-text{font-size:80px;}
+  .hero-line.small{font-size:70px;}
+  .saigonese{font-size:80px;}
+  .hero-subtitle{
+    max-width:420px;
+    font-size:20px;
+    margin-left:6px;
+  }
+
+  .hero-video video{width:420px;}
+
+  .pho{width:clamp(120px,20vw,260px);}
+  .bot{width:clamp(70px,8vw,120px);}
+  .caphe{width:clamp(70px,8vw,120px);}
+  .banhmi{width:clamp(120px,16vw,220px);}
+  .banhtrang{width:clamp(90px,12vw,160px);}
+
+  .mukbang-cta{
+    font-size:28px;
+    margin-left:20px;
+    margin-top:20px;
+    padding:5px 16px;
+  }
+
+  .allergy-box{
+    width:560px;
+    padding:50px 60px;
+  }
+
+  .allergy-box h2{
+    font-size:30px;
+  }
+
+  .allergy-options{
+    font-size:20px;
+  }
+
+  .about-desktop{
+    width:min(96vw, 1100px);
+  }
+
+  .about-text-desktop{
+    top:37%;
+    left:13%;
+    width:67%;
+    font-size:clamp(11px, 1.1vw, 16px);
+  }
+}
+
+
+/* ======================
+PHONE LANDSCAPE
+====================== */
+
+@media (max-height:500px){
+
+  .hero-text{font-size:52px;}
+  .hero-line.small{font-size:45px;}
+  .saigonese{font-size:52px;}
+  .hero-subtitle{
+    max-width:320px;
+    font-size:16px;
+    margin-top:-2px;
+    margin-left:0;
+  }
+
+  .hero-video video{width:300px;}
+
+  .mukbang-cta{
+    font-size:18px;
+    margin-left:0;
+    margin-top:8px;
+  }
+}
+
+
+/* ======================
+PHONE
+====================== */
+
+@media (max-width:600px) and (orientation:portrait){
+
+  .nav-links{
+    position:absolute;
+    top:var(--navbar-height);
+    left:0;
+    width:100%;
+    background:white;
+    flex-direction:column;
+    align-items:center;
+    gap:25px;
+    padding:40px 0;
+    opacity:0;
+    transform:translateY(-40px);
+    transition:all .35s ease;
+    pointer-events:none;
+  }
+
+  .showMenu{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+
+  .hero{
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+    margin-top:-120px;
+  }
+
+  .hero-text{font-size:48px;}
+  .hero-line.small{font-size:42px;}
+  .saigonese{font-size:48px;}
+  .hero-subtitle{
+    max-width:340px;
+    margin:0 auto;
+    font-size:16px;
+  }
+
+  .hero-video video{
+    width:340px;
+    margin-top:10px;
+  }
+
+  .pho{
+    width:clamp(90px,26vw,160px);
+    left:-6vw;
+    bottom:2vw;
+  }
+
+  .bot{
+    width:clamp(55px,16vw,90px);
+    top:2vw;
+    left:4vw;
+  }
+
+  .caphe{
+    width:clamp(55px,16vw,90px);
+    right:-2vw;
+    bottom:3vw;
+  }
+
+  .banhmi{
+    width:clamp(90px,26vw,160px);
+    right:-6vw;
+    top:3vw;
+  }
+
+  .banhtrang{
+    left:80%;
+    top:28%;
+    transform:translate(-50%,-50%);
+  }
+
+  .mukbang-cta{
+    font-size:18px;
+    margin-left:0;
+    margin-top:12px;
+    padding:4px 14px;
+  }
+
+  .allergy-box{
+    width:92vw;
+    padding:40px 28px;
+  }
+
+  .allergy-box h2{
+    font-size:24px;
+    max-width:12ch;
+    margin:0 auto 28px;
+    text-wrap:balance;
+  }
+
+  .allergy-options{
+    font-size:18px;
+    gap:16px;
+  }
+
+  .enter-btn{
+    font-size:18px;
+    padding:12px 28px;
+  }
+
+  .page2{
+    padding-top:12px;
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .about-desktop-wrap{
+    display:none;
+  }
+
+  .about-mobile-wrap{
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    position:relative;
+    width:100%;
+  }
+
+  .about-mobile{
+    display:block;
+    margin-top:18px;
+    margin-left:10px;
+    width:90vw;
+    height:auto;
+    max-width:420px;
+  }
+
+  .about-text-mobile{
+    top:35%;
+    left:16%;
+    width:60%;
+    font-family:'Oswald', sans-serif;
+    font-size:clamp(11px, 3vw, 15px);
+    line-height:1.35;
+  }
+
+  .about-text-mobile p{
+    margin-bottom:6px;
+  }
+
+  .scroll-hint-game{
+    bottom:18px;
+    width:min(96vw, 390px);
+    max-width:96vw;
+    padding:0;
+    font-size:13px;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    white-space:nowrap;
+    margin-top:0;
+  }
+
+  .page4{
+    height:auto;
+    min-height:auto;
+    align-items:flex-start;
+    padding:12px 16px 40px;
+  }
+
+  .page4-container{
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+    gap:10px;
+    min-height:auto;
+    width:100%;
+    max-width:380px;
+    margin:0 auto;
+    padding-right:0;
+    overflow:hidden;
+  }
+
+  .page4-artwork,
+  .page4-left{
+    width:100%;
+    flex:none;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+  }
+
+  .page4-artwork{
+    order:1;
+  }
+
+  .page4-left img,
+  .page4-artwork img{
+    display:block;
+    width:min(100%, 340px);
+    max-width:100%;
+    margin-left:0;
+  }
+
+  .page4-streak-content,
+  .page4-right{
+    width:100%;
+    max-width:340px;
+    margin-right:0;
+    flex:none;
+  }
+
+  .page4-streak-content{
+    order:2;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+
+  .streak-box{
+    width:100%;
+    max-width:340px;
+    margin:0 auto;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+
+  .page4-streak-info{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+  }
+
+  .page4-streak-gallery{
+    width:100%;
+    display:block;
+  }
+
+  .streak-box h2{
+    font-size:clamp(28px, 8vw, 42px);
+    line-height:1.05;
+    margin-bottom:0;
+  }
+
+  .upload-btn{
+    font-size:18px;
+    padding:10px 18px;
+  }
+
+  .file-text{
+    margin-left:0;
+    font-size:14px;
+    line-height:1.25;
+    white-space:normal;
+  }
+
+  .streak-progress{
+    width:100%;
+    margin:0;
+  }
+
+  #streakText{
+    font-size:16px;
+    margin-top:0;
+  }
+
+  .streak-gallery{
+    width:100%;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:8px;
+    margin-top:0;
+  }
+
+  .streak-gallery img{
+    height:68px;
+  }
+}
+
+
+/* ======================
+DARK MODE
+====================== */
+
+body.dark{
+  background:black;
+  color:white;
+}
+
+body.dark .navbar{
+  background:black;
+  border-bottom:3px solid white;
+}
+
+body.dark .nav-links a{
+  color:white;
+}
+
+body.dark .nav-links{
+  background:black;
+}
+
+body.dark .page1{background:black;}
+body.dark .page2{background:black;}
+body.dark .page3{background:black;}
+body.dark .page4{background:black;}
+
+body.dark .allergy-box{
+  background:black;
+  color:white;
+  border:3px solid white;
+}
+
+body.dark .allergy-box h2{
+  color:white;
+}
+
+body.dark .allergy-options label{
+  color:white;
+}
+
+body.dark .allergy-options input{
+  border:2px solid white;
+}
+
+body.dark .allergy-options input:checked::after{
+  background:white;
+}
+
+body.dark .enter-btn{
+  background:#fff032;
+  border:2px solid black;
+  color:black;
+}
+
+body.dark .about-text{
+  color:black;
+}
+
+
+/* ======================
+SMOOTH SCROLL
+====================== */
+
+html{
+  scroll-behavior:smooth;
+}
+@media (max-width:1100px){
+
+  .about-text-desktop{
+    top:42%;
+    left:25%;
+    width:50%;
+    font-size:clamp(11px,1.2vw,15px);
+    line-height:1.35;
+  }
+
+}
+@media (max-height:500px) and (orientation:landscape){
+
+  .about-desktop{
+    width:min(92vw,900px);
+  }
+
+  .about-text-desktop{
+    top:35%;
+    left:12%;
+    width:70%;
+    font-size:clamp(10px,1.4vw,14px);
+    line-height:1.25;
+  }
+
+}
+@media (max-height:500px) and (orientation:landscape){
+
+  .about-desktop{
+    width:min(70vw,560px);   /* ảnh nhỏ hơn */
+  }
+
+  .about-text-desktop{
+    top:35%;
+    left:20%;                /* xích qua phải */
+    width:62%;               /* giữ text nằm trong bảng */
+    font-size:clamp(9px,1vw,12px);  /* chữ nhỏ hơn */
+    line-height:1.25;
+  }
+
+}
+/* ======================
+SCROLL HINT (ABOUT PAGE)
+====================== */
+
+.scroll-hint{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+
+  font-family:'VinaSans', sans-serif;
+  font-size:36px;
+  color:#0a0ad5;
+
+  text-align:center;
+  white-space:nowrap;
+  z-index:5;
+}
+
+
+/* ======================
+DARK MODE
+====================== */
+
+body.dark .scroll-hint{
+  color:#fff032;
+}
+
+
+
+/* ======================
+PHONE PORTRAIT
+====================== */
+
+@media (max-width:600px){
+
+  .scroll-hint{
+    position:absolute;
+    bottom:-60px;          /* kéo chữ xuống thấp hơn */
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(96vw, 390px);
+    max-width:96vw;
+    font-size:13px;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    padding:0;
+
+    text-align:center;
+    white-space:nowrap;
+  }
+
+}
+/* ======================
+PHONE LANDSCAPE
+====================== */
+
+@media (max-height:500px) and (orientation:landscape){
+
+  .scroll-hint{
+    font-size:16px;
+    bottom:18px;
+  }
+
+}
+/* ======================
+PAGE 3 FLOATING CIRCLES
+====================== */
+
+.page3{
+  position:relative;
+  overflow:hidden;
+}
+
+.circle-layer{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+.circle{
+  position:absolute;
+  border-radius:50%;
+  opacity:0.9;
+  animation:floatCircle linear infinite;
+}
+
+/* floating motion */
+
+@keyframes floatCircle{
+
+  0%{
+    transform:translateY(0) translateX(0);
+  }
+
+  50%{
+    transform:translateY(-40px) translateX(20px);
+  }
+
+  100%{
+    transform:translateY(0) translateX(0);
+  }
+
+}
+/* ======================
+IPAD PORTRAIT FIX
+====================== */
+
+@media (min-width:601px) and (max-width:1024px) and (orientation:portrait){
+
+  .page2{
+    display:flex;
+    justify-content:center;
+    align-items:center;   /* căn giữa theo chiều dọc */
+    padding-top:0;
+  }
+
+  .about-container{
+    align-items:center;
+  }
+
+  .about-desktop-wrap{
+    align-items:center;
+  }
+
+  .about-desktop{
+    width:min(90vw,1000px);
+  }
+
+  .about-text-desktop{
+    top:45%;              /* đẩy text xuống giữa bảng */
+    left:20%;
+    width:60%;
+    transform:translateY(-50%);
+    font-size:clamp(14px,1.3vw,18px);
+  }
+
+}
+@media (max-width:600px){
+
+  .food-menu{
+
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+
+  }
+
+  .food-item{
+
+    width:45%;
+    text-align:center;
+
+    font-size:18px;
+    padding:6px 8px;
+
+  }
+
+}
+/* ======================
+KEEP FOOD MENU COLOR IN DARK MODE
+====================== */
+
+body.dark .food-item{
+  background:white;
+  color:black;
+  border-color:black;
+}
+.food-item.active-drink{
+  background:#0a0ad5 !important;
+  color:white !important;
+}
+
+.food-item.active-dry{
+  background:#e43222 !important;
+  color:white !important;
+}
+
+.food-item.active-dessert{
+  background:#fff032 !important;
+  color:black !important;
+}
+
+.food-item.active-snack{
+  background:#0bb36d !important;
+  color:white !important;
+}
+/* ======================
+RANDOM RESULT AREA
+====================== */
+
+/* ======================
+RESULT DISPLAY
+====================== */
+
+.result-box{
+
+position:absolute;
+bottom:0;
+
+width:100%;
+height:70%;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+font-family:'VinaSans';
+font-size:36px;
+
+color:black;
+text-align:center;
+
+padding:20px;
+
+pointer-events:none;
+
+position:relative;
+overflow:hidden;
+
+}
+.food-popup{
+
+position:absolute;
+
+font-family:'VinaSans';
+font-size:32px;
+color:black;
+
+white-space:nowrap;
+
+pointer-events:none;
+
+animation:popFood .25s ease;
+
+}
+@media (max-width:600px){
+
+.result-box{
+top:140px;
+height:calc(100% - 140px);
+}
+
+}
+/* ======================
+FOOD MENU LOCK
+====================== */
+
+.food-menu.locked{
+pointer-events:none;
+}
+.food-menu.locked .food-item{
+opacity:0.45;
+}
+/* ======================
+SPEAKER CONTROL
+====================== */
+
+.sound-control{
+position:fixed;
+left:18px;
+bottom:18px;
+z-index:2000;
+}
+
+.speaker-icon{
+width:clamp(50px,6vw,90px);
+cursor:pointer;
+}
+
+.sound-panel{
+
+position:absolute;
+left:0;
+bottom:80px;
+
+background:white;
+
+border:3px solid black;
+border-radius:12px;
+
+padding:12px 16px;
+width:180px;
+
+opacity:0;
+transform:translateY(10px);
+pointer-events:none;
+
+transition:.25s;
+}
+
+.sound-panel.show{
+
+opacity:1;
+transform:translateY(0);
+pointer-events:auto;
+
+}
+
+.sound-row{
+display:flex;
+flex-direction:column;
+font-family:'VinaSans';
+font-size:14px;
+}
+
+.sound-row input{
+width:100%;
+}
+.sound-panel{
+color:black !important;
+}
+
+.sound-panel label{
+color:black !important;
+}
+/* ======================
+RESULT POPUP
+====================== */
+
+.result-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+opacity:0;
+pointer-events:none;
+transition:.3s;
+
+z-index:9999;
+}
+
+.result-overlay.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.result-popup-box{
+background:white;
+border:3px solid black;
+border-radius:20px;
+padding:40px 60px;
+text-align:center;
+width:min(520px, 90vw);
+animation:popIn .4s ease;
+min-height:180px;         /* tạo không gian */
+padding:24px 20px 50px;   /* CHỪA chỗ dưới cho text */
+position:relative;        /* cần cho absolute con */
+}
+
+.result-popup-box h2{
+font-family:'VinaSans';
+font-size:clamp(22px,3vw,36px);
+margin:0;
+}
+
+@keyframes popIn{
+0%{transform:scale(.7); opacity:0;}
+100%{transform:scale(1); opacity:1;}
+}
+/* FIX TEXT POPUP KHÔNG BỊ DARK MODE */
+.result-popup-box,
+.result-popup-box h2{
+color:black !important;
+}
+body.no-scroll{
+overflow:hidden;
+}
+/* EXIT BUTTON */
+.exit-btn{
+position:absolute;
+top:12px;
+right:12px;
+width:32px;
+cursor:pointer;
+z-index:10;
+transition:.2s;
+}
+
+.exit-btn:hover{
+transform:scale(1.1);
+}
+
+/* FIX TEXT POPUP */
+.result-popup-box{
+position:relative; /* QUAN TRỌNG */
+}
+
+.result-popup-box h2{
+font-weight:normal; /* bỏ đậm */
+font-size:clamp(26px,4vw,40px); /* to hơn */
+color:black !important;
+}
+
+/* ======================
+RESULT POPUP BOX FIX
+====================== */
+
+/* ======================
+RESULT POPUP BOX
+====================== */
+
+.result-popup-box{
+  position:relative;
+
+  width:min(520px, 90vw);
+  min-height:180px;
+
+  padding:24px 24px 60px; /* tăng padding 2 bên */
+
+  box-sizing:border-box;
+}
+
+
+/* ======================
+BOTTOM ACTIONS
+====================== */
+
+.popup-bottom{
+  position:absolute;
+  bottom:14px;
+  left:0;
+  width:100%;
+}
+
+
+/* 👈 SEE REVIEW (FIX CHÍNH Ở ĐÂY) */
+.see-review{
+  position:absolute;
+  left:30px;   /* 🔥 tăng từ 16 → 28 để không dính viền */
+  bottom:0;
+}
+
+
+/* 👉 GOOGLE MAP */
+.google-map{
+  position:absolute;
+  right:28px;  /* cân đối với bên trái */
+  bottom:0;
+}
+
+
+/* ======================
+TEXT STYLE
+====================== */
+
+.see-review,
+.google-map{
+  font-family:'Oswald';
+  font-size:24px;
+  color:#555;
+  cursor:pointer;
+  transition:transform .2s ease, color .2s ease;
+  white-space:nowrap;
+transform-origin:left center;
+}
+
+
+/* HOVER */
+.see-review:hover,
+.google-map:hover{
+  color:black;
+  transform:scale(1.05);
+}
+/* ======================
+PAGE 4 LAYOUT
+====================== */
+
+.page4-container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  width:100%;   /* 🔥 đổi từ 90% → 100% */
+  max-width:none; /* 🔥 bỏ giới hạn */
+
+  margin:auto;
+  min-height:100vh;
+  padding-right:30px;   /* 🔥 tạo khoảng bên phải */
+  overflow:hidden; /* 🔥 THÊM */
+}
+/* LEFT IMAGE */
+.page4-left{
+  flex:0 0 55%;   /* 🔥 KHÓA cứng, không cho co */
+  display:flex;
+  justify-content:flex-start;
+
+  align-items:center;         /* 🔥 CÁI QUAN TRỌNG: canh giữa dọc */
+
+  overflow:visible;
+}
+
+.page4-left img{
+  width:105%;
+  margin-left:3%;   /* 🔥 từ -2% → +3% (đẩy qua phải) */
+}
+
+/* RIGHT CONTENT */
+.page4-right{
+  flex:0 0 40%;      /* 🔥 KHÓA kích thước */
+  max-width:420px;   /* 🔥 không cho nó phình */
+}
+.page4-right{
+  margin-right:40px;    /* 🔥 thêm dòng này để kéo vào */
+}
+.streak-box{
+  padding:24px;
+  max-width:340px;
+
+  background:transparent;
+  border:none;
+  border-radius:0;
+  backdrop-filter:none;
+}
+
+.streak-gallery img{
+  height:70px; /* 🔥 nhỏ lại */
+}
+.streak-progress{
+  width:100%;
+  height:12px;
+  background:#ddd;
+  border-radius:10px;
+  overflow:hidden;
+  margin:10px 0;
+}
+
+.streak-bar{
+  height:100%;
+  width:0%;
+  background:#e43222;
+  transition:.3s;
+}
+
+.streak-gallery{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:10px;
+}
+
+.streak-gallery img{
+  width:100%;
+  height:80px;
+  object-fit:cover;
+  border-radius:6px;
+}
+.streak-box h2{
+  font-weight:normal;      /* 🔥 bỏ đậm */
+  font-size:28px;          /* 🔥 to hơn */
+}
+.upload-btn{
+  display:inline-block;
+padding:6px 14px;     /* 🔥 nhỏ lại */
+  font-size:14px;       /* 🔥 nhỏ chữ */
+  border-radius:16px;   /* bo nhẹ lại cho hợp size */
+
+  background:#fff032;
+  border:2px solid black;
+  font-family:'Oswald';
+
+  cursor:pointer;
+  transition:.2s;
+}
+
+.upload-btn:hover{
+  transform:scale(1.05);
+}
+.file-text{
+  margin-left:10px;
+  font-size:14px;
+  color:#555;
+  font-family:'Oswald';
+}
+/* ẨN INPUT GỐC */
+#uploadInput{
+  display:none;
+}
+
+/* BUTTON */
+.upload-btn{
+  display:inline-block;
+  padding:8px 18px;
+
+  background:#fff032;
+  border:2px solid black;
+  border-radius:20px;
+
+  font-family:'Oswald';
+  font-size:16px;
+
+  cursor:pointer;
+  transition:.2s;
+}
+
+.upload-btn:hover{
+  transform:scale(1.05);
+}
+
+/* TEXT */
+.file-text{
+  margin-left:10px;
+  font-size:14px;
+  color:#555;
+  font-family:'Oswald';
+}
+/* ======================
+NAV LINK WIGGLE EFFECT
+====================== */
+
+.nav-links a{
+  display:inline-block; /* 🔥 bắt buộc để transform hoạt động đúng */
+}
+
+@keyframes navWiggle{
+  0%   { transform:rotate(0deg); }
+  25%  { transform:rotate(-6deg); }
+  50%  { transform:rotate(6deg); }
+  75%  { transform:rotate(-4deg); }
+  100% { transform:rotate(0deg); }
+}
+
+@media (hover:hover){
+  .nav-links a:hover{
+    animation:navWiggle 0.35s ease;
+  }
+}
+
+/* ======================
+STREAK SIZE BOOST
+====================== */
+
+.streak-box h2{
+  font-size:clamp(32px, 3vw, 48px);
+}
+
+.upload-btn{
+  font-size:20px;
+  padding:12px 26px;
+}
+
+.file-text{
+  font-size:18px;
+}
+
+#streakText{
+  font-size:22px;
+  margin-top:10px;
+}
+
+.streak-progress{
+  height:14px;
+  margin-top:12px;
+}
+
+/* ======================
+PAGE4 EXPAND STREAK BOX
+====================== */
+
+.page4-right{
+  max-width:520px;   /* 🔥 tăng từ 420 → 520 */
+}
+
+.streak-box{
+  max-width:500px;   /* 🔥 tăng từ 340 → 500 */
+  width:100%;
+}
+body.dark .streak-box{
+  background:transparent;     /* 🔥 bỏ nền xám */
+  backdrop-filter:none;       /* 🔥 bỏ blur */
+  border:none;                /* (optional) bỏ viền nếu có */
+}
+body.dark .upload-btn{
+  color:black !important;
+}
+
+/* 🔥 đổi "No file selected" thành trắng */
+body.dark .file-text{
+  color:white !important;
+}
+/* ======================
+FOOD HINT TEXT
+====================== */
+.food-hint{
+  position:absolute;
+
+  top:50%;                  /* 🔥 key */
+  left:50%;
+  transform:translate(-50%, -50%); /* 🔥 căn giữa chuẩn */
+
+  font-family:'Oswald';
+  font-size:clamp(16px, 2vw, 22px);
+
+  color:#555;
+  opacity:0;
+
+  pointer-events:none;
+  text-align:center;
+}
+
+/* blink nhẹ */
+@keyframes hintBlink{
+  0%{opacity:0;}
+  50%{opacity:.6;}
+  100%{opacity:0;}
+}
+
+.food-hint.show{
+  animation:hintBlink 1.6s infinite;
+}
+
+/* DARK MODE */
+body.dark .food-hint{
+  color:#aaa;
+}
+
+/* MOBILE */
+@media (max-width:600px){
+  .food-hint{
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+    font-size:14px;
+    width:calc(100% - 24px);
+    max-width:240px;
+    padding:0 10px;
+    white-space:normal;
+  }
+}
+@keyframes blinkSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.scroll-hint{
+  animation: blinkSoft 1.6s infinite;
+}
+
+.scroll-hint-game{
+  font-family:'VinaSans', sans-serif;
+  font-size:36px;
+  color:black;
+
+  text-align:center;
+  white-space:nowrap;
+
+  margin-top:-20px;   /* 🔥 chỉnh vị trí tại đây */
+
+  animation: blinkSoft 1.6s infinite;
+}
+
+/* DARK MODE */
+body.dark .scroll-hint-game{
+  color:#fff032;
+}
+.scroll-hint-game{
+  position:absolute;
+  bottom:40px;   /* 🔥 chỉnh lên xuống ở đây */
+  left:50%;
+  transform:translateX(-50%);
+}
+.certificate-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+
+  background:rgba(0,0,0,0.6);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:.3s;
+  z-index:9999;
+}
+
+.certificate-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.certificate-modal{
+  position:relative;
+  width:min(92vw, 900px);
+  height:min(82vh, 720px);
+  padding:24px;
+  border-radius:24px;
+  background:rgba(255,255,255,0.96);
+  box-shadow:0 24px 60px rgba(0,0,0,0.28);
+  overflow:hidden;
+}
+
+.certificate-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
+  background:#e43222;
+  color:white;
+
+  border:none;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:20px;
+  font-weight:bold;
+
+  line-height:1;
+  padding:0;
+
+  cursor:pointer;
+  z-index:10;
+}
+
+.certificate-overlay model-viewer{
+  width:100%;
+  height:100%;
+
+  transform:rotateY(15deg);
+
+  object-fit:contain;
+  animation:certPop .45s ease;
+}
+
+@keyframes certPop{
+  0%{
+    transform:scale(0.6) rotateY(20deg);
+    opacity:0;
+  }
+  70%{
+    transform:scale(1.1) rotateY(20deg);
+    opacity:1;
+  }
+  100%{
+    transform:scale(1) rotateY(20deg);
+  }
+}
+@media (max-width:600px){
+  .certificate-modal{
+    width:94vw;
+    height:70vh;
+    padding:16px;
+    border-radius:18px;
+  }
+
+  .certificate-close{
+    top:10px;
+    right:10px;
+  }
+
+  .certificate-overlay model-viewer{
+    width:100%;
+    height:100%;
+  }
+}
+@media (max-width:600px){
+
+  .scroll-hint{
+    position:absolute;
+    bottom:-60px;
+    left:50%;
+    transform:translateX(-50%);
+
+    width:min(96vw, 390px);
+    max-width:96vw;
+    font-size:13px;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+
+    text-align:center;
+    white-space:nowrap;
+  }
+
+  /* 🔥 THÊM ĐOẠN NÀY */
+  .scroll-hint-game{
+    font-size:13px;
+    width:min(96vw, 390px);
+    max-width:96vw;
+
+    line-height:1.1;
+    letter-spacing:-0.02em;
+
+    white-space:nowrap;
+  }
+
+}
+.image-preview{
+  position:relative;
+  margin-top:10px;
+  display:none;
+  width:140px;
+}
+
+.image-preview img{
+  width:100%;
+  border-radius:8px;
+  border:2px solid black;
+}
+
+/* nút xoá */
+.remove-btn{
+  position:absolute;
+  top:-10px;
+  right:-10px;
+
+  width:26px;
+  height:26px;
+
+  background:#e43222;
+  color:white;
+
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:16px;
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.remove-btn:hover{
+  transform:scale(1.1);
+}
+.cert-btn{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+
+  width:50px;   /* nhỏ */
+
+  opacity:0;
+  transform:scale(0.6);
+
+  cursor:pointer;
+  z-index:3000;
+
+  transition:.3s;
+  pointer-events:none;
+}
+
+.cert-btn.show{
+  opacity:1;
+  transform:scale(1);
+  pointer-events:auto;
+}
+.cert-btn.show{
+  animation:popBtn .4s ease;
+}
+
+@keyframes popBtn{
+  0%{transform:scale(0.4);}
+  80%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+/* ======================
+DOT NAV
+====================== */
+
+.dot-nav{
+  position:fixed;
+  right:20px;
+  top:50%;
+  transform:translateY(-50%);
+
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+
+  z-index:2000;
+}
+
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#ccc;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.dot.active{
+  transform:scale(1.3);
+}
+
+/* 🔥 CHÍNH LÀ ĐOẠN BẠN HỎI */
+.dot[data-target="page1"].active{ background:#e43222; }
+.dot[data-target="page2"].active{ background:#0a0ad5; }
+.dot[data-target="page3"].active{ background:#0bb36d; }
+.dot[data-target="page4"].active{ background:#fff032; }
+
+/* ======================
+RELOAD HINT (FIXED BOTTOM)
+====================== */
+
+.page4{
+  position:relative; /* 🔥 QUAN TRỌNG */
+}
+
+.reload-hint{
+  
+  position:absolute;
+  bottom:20px;         /* 🔥 luôn dính đáy */
+  left:50%;
+  transform:translateX(-50%);
+
+  font-family:'VinaSans', sans-serif;
+  font-size:36px;
+  opacity:0.6;
+
+    animation: blinkSoft 1.6s infinite;
+}
+
+/* giống style hint cũ */
+@keyframes blinkHint{
+  0%,100%{opacity:0.3;}
+  50%{opacity:1;}
+}
+@media (max-width:600px){
+  .reload-hint{
+    font-size:13px;
+    bottom:15px;
+    
+  }
+}
+/* ======================
+LANDSCAPE FIX (IPAD + PHONE)
+====================== */
+
+@media (max-height:500px) and (orientation:landscape){
+
+  .scroll-hint,
+  .scroll-hint-game,
+  .reload-hint{
+    font-size:16px;   /* 🔥 đồng bộ 3 cái */
+  }
+
+}
+/* ======================
+USER GUIDE POPUP (FIX FULL)
+====================== */
+
+/* OVERLAY (BẮT BUỘC PHẢI CÓ) */
+.guide-overlay{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+
+  background:rgba(0,0,0,0.4);
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  opacity:0;
+  pointer-events:none;
+
+  transition:opacity .35s ease;
+  z-index:3000;
+}
+
+.guide-overlay.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+
+/* BOX */
+.guide-box{
+  position:relative;
+
+  background:white;
+  border:3px solid black;
+  border-radius:30px;
+
+  padding:60px 80px;          /* 🔥 giống allergy */
+  width:680px;
+  max-width:92vw;
+
+  text-align:center;
+  font-family:'VinaSans';
+
+  transform:scale(.75);
+  opacity:0;
+}
+
+
+/* ANIMATION (GIỐNG ALLERGY) */
+.guide-overlay.show .guide-box{
+  animation:popupBounce .55s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+
+
+/* TITLE */
+.guide-box h2{
+  font-family:'VinaSans';
+  font-size:34px;
+  margin-bottom:35px;
+  line-height:1.3;
+}
+
+
+/* CONTENT */
+.guide-box p{
+  font-family:'Oswald';
+  font-size:22px;
+  line-height:1.6;
+}
+
+
+/* CLOSE BUTTON */
+.guide-close{
+  position:absolute;
+  top:14px;
+  right:18px;
+
+  font-size:28px;
+  cursor:pointer;
+
+  background:none;
+  border:none;
+}
+.allergy-box h2,
+.guide-box h2{
+  font-weight:normal;   /* hoặc normal */
+}
+/* GUIDE POPUP giữ chữ đen trong dark mode */
+body.dark .guide-box,
+body.dark .guide-box h2,
+body.dark .guide-box p,
+body.dark .guide-close{
+  color:black !important;
+}
